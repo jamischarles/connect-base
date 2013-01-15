@@ -30,6 +30,16 @@ curl -H "X-Forwarded-Host: test.example.com" http://example.com
 ```
 
 ```sh
+curl -H "X-Forwarded-Proto: https" http://example.com
+> https://example.com
+```
+
+```sh
+curl -H "X-Forwarded-Host: test.example.com" -H "X-Forwarded-Port: 8080" http://example.com
+> http://test.example.com:8080
+```
+
+```sh
 curl -H "X-Forwarded-Host: test.example.com" -H "X-Forwarded-Path: /testing" http://example.com
 > http://test.example.com/testing
 ```
