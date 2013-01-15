@@ -1,4 +1,4 @@
-connect-base
+connect-base [![Build Status](https://travis-ci.org/CamShaft/connect-base.png?branch=master)](https://travis-ci.org/CamShaft/connect-base)
 ============
 
 Get the base url for Express/Connect
