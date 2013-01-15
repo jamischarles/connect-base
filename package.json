@@ -1,0 +1,25 @@
+{
+  "name": "connect-base",
+  "version": "0.0.0",
+  "description": "Get the base url for Express/Connect",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "NODE_ENV=test node_modules/.bin/mocha -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/CamShaft/connect-base.git"
+  },
+  "author": "Cameron Bytheway <cameron@nujii.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "should": "~1.2.1",
+    "mocha": "~1.8.1",
+    "connect": "~2.7.2",
+    "supertest": "~0.5.1"
+  }
+}
