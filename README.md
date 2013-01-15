@@ -46,7 +46,7 @@ curl -H "X-Forwarded-Host: test.example.com" http://example.com
 ```
 
 ```sh
-curl -H -H "X-Forwarded-Port: 8080" http://example.com
+curl -H "X-Forwarded-Port: 8080" http://example.com
 > http://example.com:8080
 ```
 
