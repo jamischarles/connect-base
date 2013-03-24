@@ -21,5 +21,8 @@
     "mocha": "~1.8.1",
     "connect": "~2.7.2",
     "supertest": "~0.5.1"
+  },
+  "dependencies": {
+    "debug": "~0.7.2"
   }
 }

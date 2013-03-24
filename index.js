@@ -1,3 +1,9 @@
+/**
+ * Module dependencies
+ */
+var url = require("url")
+  , debug = require("debug")("connect-base");
+
 module.exports = function(options) {
   options = options || {};
   
@@ -8,16 +14,28 @@ module.exports = function(options) {
     , protoHeader = options.proto || 'x-forwarded-proto';
   
   return function base(req, res, next) {
-    var hostParts = req.headers.host.split(":")
-      , host = req.headers[hostHeader] || hostParts[0] || ""
-      , path = req.headers[pathHeader] || ""
-      , protocol = req.headers[protoHeader] || req.protocol || "http"
-      , port = req.headers[portHeader] || hostParts[1] || "";
+    var hostParts = req.headers.host.split(":");
 
-    if((port == 80 && protocol === "http") || (port == 443 && protocol === "https")) port = "";
-    if(port) port = ":"+port;
+    var base = {
+      protocol: req.headers[protoHeader] || req.protocol || "http",
+      hostname: req.headers[hostHeader] || hostParts[0] || "",
+      port: req.headers[portHeader] || hostParts[1] || "",
+      pathname: req.headers[pathHeader] || ""
+    };
+    if((base.port == 80 && base.protocol === "http") ||
+       (base.port == 443 && base.protocol === "https")) delete base.port;
 
-    req.base = protocol+"://"+host+port+path;
+    debug("", base);
+
+    // Expose req.base
+    req.base = url.format(base);
+
+    // Expose req.resolve
+    req.resolve = function(path) {
+      var resolvedPath = url.resolve(req.base, path);
+      debug(resolvedPath);
+      return resolvedPath;
+    };
     next();
   }
 };
