@@ -1,6 +1,6 @@
 {
   "name": "connect-base",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Get the base url for Express/Connect",
   "main": "index.js",
   "directories": {
