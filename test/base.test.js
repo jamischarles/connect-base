@@ -20,6 +20,14 @@ app.use("/resolve", function(req, res) {
   res.end(req.resolve(req.query.path));
 });
 
+var subapp = connect();
+
+subapp.use(function(req, res) {
+  res.end(req.resolve(req.query.path));
+});
+
+app.use("/subapp", subapp);
+
 app.use(function(req, res) {
   res.end(req.base);
 });
@@ -141,13 +149,41 @@ describe("connect-base", function() {
   });
 
   describe("req.resolve(path)", function(){
-    it("should resolve the path correctly", function(done) {
+    it("should resolve a root path correctly", function(done) {
       request(app)
         .get("/resolve")
         .query({path: "/path/to/test"})
         .set("X-Forwarded-Host", "example.com")
         .set("X-Forwarded-Port", "8080")
         .expect("http://example.com:8080/path/to/test")
+        .end(function(err, res) {
+          if(err) done(err);
+          res.ok.should.be.ok;
+          done();
+        });
+    });
+
+    it("should resolve a relative path correctly", function(done) {
+      request(app)
+        .get("/resolve")
+        .query({path: "path/to/test"})
+        .set("X-Forwarded-Host", "example.com")
+        .set("X-Forwarded-Port", "8080")
+        .expect("http://example.com:8080/resolve/path/to/test")
+        .end(function(err, res) {
+          if(err) done(err);
+          res.ok.should.be.ok;
+          done();
+        });
+    });
+
+    it("should resolve a subapp path", function(done) {
+      request(app)
+        .get("/subapp/resolve")
+        .query({path: "path/to/test"})
+        .set("X-Forwarded-Host", "example.com")
+        .set("X-Forwarded-Port", "8080")
+        .expect("http://example.com:8080/subapp/path/to/test")
         .end(function(err, res) {
           if(err) done(err);
           res.ok.should.be.ok;

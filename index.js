@@ -3,6 +3,7 @@
  */
 var url = require("url")
   , resolve = require("path").resolve
+  , join = require("path").join
   , debug = require("debug")("connect-base");
 
 module.exports = function(options) {
@@ -39,15 +40,21 @@ module.exports = function(options) {
       // It's an absolue path
       if(url.parse(path).protocol) return path;
 
+      // Resolve it relative to the mounted app
+      var appPath = !!req.originalUrl && req.url !== req.originalUrl ? req.originalUrl.substring(0, req.originalUrl.length-req.url.length+1) : "/";
+
+      // Join the base path with the app path
+      var joinedPath = join(base.pathname || "/", appPath);
+
       // It's a relative path
       var resolvedPath = url.format({
         protocol: base.protocol,
         hostname: base.hostname,
         port: base.port,
-        pathname: resolve(base.pathname || "/", path)
+        pathname: resolve(joinedPath, path)
       });
 
-      debug("Resolving path",base.pathname || "/","+",path,"->",resolvedPath);
+      debug("Resolving path",joinedPath,"+",path,"->",resolvedPath);
 
       return resolvedPath;
     };
