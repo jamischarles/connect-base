@@ -43,7 +43,7 @@ module.exports = function(options) {
       if(url.parse(path).protocol) return path;
 
       // Resolve it relative to the mounted app
-      var appPath = !!req.originalUrl && req.url !== req.originalUrl ? req.originalUrl.substring(0, req.originalUrl.length-req.url.length+1) : "/";
+      var appPath = !!req.originalUrl && req.url !== req.originalUrl ? req.originalUrl.slice(0,-req.url.length+1) : "/";
 
       // Join the base path with the app path
       var joinedPath = join(base.pathname || "/", appPath);
