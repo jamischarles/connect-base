@@ -36,7 +36,9 @@ module.exports = function(options) {
     req.base = url.format(base);
 
     // Expose req.resolve
-    req.resolve = function(path) {
+    req.resolve = function() {
+      var path = Array.prototype.join.call(arguments, "/");
+
       // It's an absolue path
       if(url.parse(path).protocol) return path;
 
