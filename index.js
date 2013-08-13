@@ -8,15 +8,20 @@ var url = require("url")
 
 module.exports = function(options) {
   options = options || {};
-  
+
   // Header names
   var hostHeader = options.host || 'x-forwarded-host'
     , pathHeader = options.path || 'x-forwarded-path'
     , portHeader = options.port || 'x-forwarded-port'
     , protoHeader = options.proto || 'x-forwarded-proto';
-  
+
   return function base(req, res, next) {
     var hostParts = req.headers.host.split(":");
+
+    debug('protoHeader', protoHeader);
+
+    debug('req.headers[protoHeader]', req.headers[protoHeader]);
+    debug('req.protocol', req.protocol);
 
     // Construct the base
     var base = {
@@ -25,6 +30,8 @@ module.exports = function(options) {
       port: (req.headers[portHeader] || hostParts[1] || "").split(",")[0],
       pathname: (req.headers[pathHeader] || "").split(",")[0]
     };
+
+    debug('base.protocol', base.protocol);
 
     // Remove standard ports
     if((base.port == 80 && base.protocol === "http") ||
