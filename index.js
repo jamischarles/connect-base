@@ -18,6 +18,9 @@ module.exports = function(options) {
   return function base(req, res, next) {
     var hostParts = req.headers.host.split(":");
 
+    debug('x-forwarded-proto', req.headers['x-forwarded-proto']);
+    debug('x-orig-proto', req.headers['x-orig-proto']);
+
     debug('protoHeader', protoHeader);
 
     debug('req.headers[protoHeader]', req.headers[protoHeader]);
