@@ -28,7 +28,7 @@ module.exports = function(options) {
 
     // Construct the base
     var base = {
-      protocol: (req.headers[protoHeader] || req.protocol || "http").split(",")[0],
+      protocol: (req.headers[protoHeader] || req.headers['x-forwarded-proto'] || req.protocol || "http").split(",")[0],
       hostname: (req.headers[hostHeader] || hostParts[0] || "").split(",")[0],
       port: (req.headers[portHeader] || hostParts[1] || "").split(",")[0],
       pathname: (req.headers[pathHeader] || "").split(",")[0]
